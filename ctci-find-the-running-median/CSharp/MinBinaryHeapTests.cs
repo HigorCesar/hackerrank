@@ -22,9 +22,24 @@ namespace ctci_find_the_running_median
             foreach (var item in input)
                 sut.Insert(item);
 
-            foreach (var item in output){
+            foreach (var item in output)
+            {
                 Assert.Equal(item, sut.ExtractMin());
             }
+        }
+
+        [Fact]
+        public void Insert_when_running_out_space_throws_exception()
+        {
+            var sut = new MinBinaryHeap(0);
+            Assert.Throws<InvalidOperationException>(() => sut.Insert(1));
+        }
+
+        [Fact]
+        public void Peek_when_is_empty_returns_throws_exception()
+        {
+            var sut = new MinBinaryHeap(0);
+            Assert.Throws<InvalidOperationException>(() => sut.Peek());
         }
 
     }

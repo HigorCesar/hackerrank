@@ -13,7 +13,7 @@ namespace ctci_find_the_running_median
             sut.Insert(20);
             Assert.Equal(20, sut.Peek());
         }
-        
+
         [Theory]
         [InlineData(new[] { 4, 12, 30, 22, 50 }, new[] { 50, 30, 22, 12, 4 })]
         public void InsertAndExtractSomeNumbers(int[] input, int[] output)
@@ -23,19 +23,21 @@ namespace ctci_find_the_running_median
                 sut.Insert(item);
 
             foreach (var item in output)
-               Assert.Equal(item, sut.ExtractMax());
+                Assert.Equal(item, sut.ExtractMax());
         }
 
         [Fact]
-        public void Insert_when_running_out_space_throws_exception(){
+        public void Insert_when_running_out_space_throws_exception()
+        {
             var sut = new MaxBinaryHeap(0);
             Assert.Throws<InvalidOperationException>(() => sut.Insert(1));
         }
-        
-         [Fact]
-        public void ExtractMax_when_is_empty_returns_throws_exception(){
+
+        [Fact]
+        public void Peek_when_is_empty_returns_throws_exception()
+        {
             var sut = new MaxBinaryHeap(0);
-             Assert.Throws<InvalidOperationException>(() => sut.Peek());
+            Assert.Throws<InvalidOperationException>(() => sut.Peek());
         }
     }
 }
