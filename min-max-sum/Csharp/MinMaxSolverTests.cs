@@ -12,66 +12,47 @@ namespace mini_max_sum
         }
         public static decimal MinSum(decimal[] values)
         {
-            Sort(values);
+            QuickSort(values, 0, values.Length - 1);
             return values.Skip(1).Sum();
         }
         public static decimal MaxSum(decimal[] values)
         {
-            Sort(values);
+            QuickSort(values, 0, values.Length - 1);
             return values.Take(4).Sum();
         }
-        public static void Sort(decimal[] values)
+        public static void QuickSort(decimal[] values, int low, int high)
         {
-            Sort(values, values.Length);
-        }
-        public static void Sort(decimal[] values, int length)
-        {
-            var pivot = values[length - 1];
-            var lowerThanPivot = new decimal[length];
-            var biggerThanPivot = new decimal[length];
-            int lowerThanPivotCount = 0;
-            int biggerThanPivotCount = 0;
-            for (int i = 0; i < length - 1; i++)
+            if (low < high)
             {
-                if (values[i] < pivot)
-                    lowerThanPivot[lowerThanPivotCount++] = values[i];
-                else
-                    biggerThanPivot[biggerThanPivotCount++] = values[i];
+                var pi = Partition(values, low, high);
+                QuickSort(values, low, pi - 1);
+                QuickSort(values, pi + 1, high);
             }
-            if (lowerThanPivotCount > 1)
-                Sort(lowerThanPivot, lowerThanPivotCount);
-            if (biggerThanPivotCount > 1)
-                Sort(biggerThanPivot, biggerThanPivotCount);
-
-            int sortedIndex = 0;
-            for (int i = 0; i < lowerThanPivotCount; i++)
-                values[sortedIndex++] = lowerThanPivot[i];
-
-            values[sortedIndex++] = pivot;
-
-            for (int i = 0; i < biggerThanPivotCount; i++)
-                values[sortedIndex++] = biggerThanPivot[i];
+        }
+        private static void Swap(decimal[] values, int x, int y)
+        {
+            var tmp = values[x];
+            values[x] = values[y];
+            values[y] = tmp;
+        }
+        private static int Partition(decimal[] values, int low, int high)
+        {
+            var pivot = values[high]; //rightmost element
+            int i = (low - 1); //index of smaller element
+            for (int j = low; j <= high; j++)
+            {
+                if (values[j] < pivot)
+                {
+                    Swap(values, j, ++i);
+                }
+            }
+            Swap(values, high, ++i);
+            return i;
 
         }
     }
     public class MinMaxSolverTests
     {
-        [Fact]
-        public void Sort3Items()
-        {
-            var actual = new decimal[] { 3, 1, 2 };
-            MinMaxSolver.Sort(actual);
-            Assert.Equal(new decimal[] { 1, 2, 3 }, actual);
-
-        }
-        [Fact]
-        public void Sort10Items()
-        {
-            var actual = new decimal[] { 3, 1, 2, 0, 99, 2, 54, 67, 888, 4 };
-            MinMaxSolver.Sort(actual);
-            Assert.Equal(new decimal[] { 0, 1, 2, 2, 3, 4, 54, 67, 99, 888 }, actual);
-        }
-
         [Fact]
         public void MaxSum()
         {
@@ -79,5 +60,15 @@ namespace mini_max_sum
             Assert.Equal((decimal)1673711044, MinMaxSolver.MaxSum(actual));
             Assert.Equal((decimal)2486347135, MinMaxSolver.MinSum(actual));
         }
+
+        [Fact]
+        public void QuickSort3Items()
+        {
+            var actual = new decimal[] { 3, 1, 2 };
+            MinMaxSolver.QuickSort(actual, 0, actual.Length - 1);
+            Assert.Equal(new decimal[] { 1, 2, 3 }, actual);
+
+        }
+
     }
 }
