@@ -7,8 +7,46 @@ namespace MagicSquare.CSharp
 {
     public class UnitTest1
     {
+        static int[][] ReflectAlongMainDiagonal(int[][] magicSquare)
+        {
+            var newMagicSquare = (int[][])magicSquare.Clone();
 
-        static int[][] Mirror(int[][] magicSquare)
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (j < i)
+                    {
+                        var temp = newMagicSquare[j][i];
+                        newMagicSquare[j][i] = newMagicSquare[i][j];
+                        newMagicSquare[i][j] = temp;
+
+                    }
+                }
+            }
+            return newMagicSquare;
+        }
+        static int[][] ReflectAlongOffDiagonal(int[][] magicSquare)
+        {
+            var newMagicSquare = (int[][])magicSquare.Clone();
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (j+i > 2)
+                    {
+                        var diff = j + i - 2;
+                        var temp = newMagicSquare[i - diff][j - diff];
+                        newMagicSquare[i-diff][j-diff] = newMagicSquare[i][j];
+                        newMagicSquare[i][j] = temp;
+
+                    }
+                }
+            }
+            return newMagicSquare;
+        }
+        static int[][] ReflectAlongColumns(int[][] magicSquare)
         {
             var newMagicSquare = new[]
             {
@@ -26,7 +64,24 @@ namespace MagicSquare.CSharp
 
             return newMagicSquare;
         }
-        
+        static int[][] ReflectAlongRows(int[][] magicSquare)
+        {
+            var newMagicSquare = new[]
+            {
+                new int[3],
+                new int[3],
+                new int[3],
+            };
+
+            for (int i = 0; i < 3; i++)
+            {
+                int destRow = 2;
+                for (int j = 0; j < 3; j++)
+                    newMagicSquare[destRow-j][i] = magicSquare[i][j];
+            }
+
+            return newMagicSquare;
+        }
         static int[][] Rotate(int[][] magicSquare)
         {
             var newMagicSquare = new[]
@@ -100,15 +155,53 @@ namespace MagicSquare.CSharp
             Assert.True(IsValidMagicSquare(anotherMagicSquare));
         }
         [Fact]
-        public void GivenMagicSquare_WhenMirror_ThenReturnsAnotherMagicSquare()
+        public void GivenMagicSquare_WhenReflectAlongColumns_ThenReturnsAnotherMagicSquare()
         {
             var givenMagicSquare = new[]
-            {
+            {    
                 new[] {4, 9, 2},
                 new[] {3, 5, 7},
                 new[] {8, 1, 6}
             };
-            var anotherMagicSquare = Mirror(givenMagicSquare);
+            var anotherMagicSquare = ReflectAlongColumns(givenMagicSquare);
+            Assert.True(IsValidMagicSquare(anotherMagicSquare));
+        }
+        [Fact]
+        public void GivenMagicSquare_WhenReflectAlongRows_ThenReturnsAnotherMagicSquare()
+        {
+            var givenMagicSquare = new[]
+            {    
+                new[] {4, 9, 2},
+                new[] {3, 5, 7},
+                new[] {8, 1, 6}
+            };
+            var anotherMagicSquare = ReflectAlongRows(givenMagicSquare);
+            Assert.True(IsValidMagicSquare(anotherMagicSquare));
+        }
+    
+        [Fact]
+        public void GivenMagicSquare_WhenReflectAlongMainDiagonal_ThenReturnsAnotherMagicSquare()
+        {
+            var givenMagicSquare = new[]
+            {    
+                new[] {4, 9, 2},
+                new[] {3, 5, 7},
+                new[] {8, 1, 6}
+            };
+            var anotherMagicSquare = ReflectAlongMainDiagonal(givenMagicSquare);
+            Assert.True(IsValidMagicSquare(anotherMagicSquare));
+        }
+        
+        [Fact]
+        public void GivenMagicSquare_WhenReflectAlongOffDiagonal_ThenReturnsAnotherMagicSquare()
+        {
+            var givenMagicSquare = new[]
+            {    
+                new[] {4, 9, 2},
+                new[] {3, 5, 7},
+                new[] {8, 1, 6}
+            };
+            var anotherMagicSquare = ReflectAlongOffDiagonal(givenMagicSquare);
             Assert.True(IsValidMagicSquare(anotherMagicSquare));
         }
     }
