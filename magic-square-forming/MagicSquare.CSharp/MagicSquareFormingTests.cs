@@ -5,12 +5,19 @@ using Xunit;
 
 namespace MagicSquare.CSharp
 {
-    public class UnitTest1
+    public class MagicSquareFormingTests
     {
         static int[][] ReflectAlongMainDiagonal(int[][] magicSquare)
         {
-            var newMagicSquare = (int[][])magicSquare.Clone();
-
+            var newMagicSquare = new[]
+            {
+                new int[3],
+                new int[3],
+                new int[3],
+            };
+            for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                newMagicSquare[i][j] = magicSquare[i][j];
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
@@ -20,32 +27,42 @@ namespace MagicSquare.CSharp
                         var temp = newMagicSquare[j][i];
                         newMagicSquare[j][i] = newMagicSquare[i][j];
                         newMagicSquare[i][j] = temp;
-
                     }
                 }
             }
+
             return newMagicSquare;
         }
+
         static int[][] ReflectAlongOffDiagonal(int[][] magicSquare)
         {
-            var newMagicSquare = (int[][])magicSquare.Clone();
-
+            var newMagicSquare = new[]
+            {
+                new int[3],
+                new int[3],
+                new int[3],
+            };
+            for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                newMagicSquare[i][j] = magicSquare[i][j];
+            
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (j+i > 2)
+                    if (j + i > 2)
                     {
                         var diff = j + i - 2;
                         var temp = newMagicSquare[i - diff][j - diff];
-                        newMagicSquare[i-diff][j-diff] = newMagicSquare[i][j];
+                        newMagicSquare[i - diff][j - diff] = newMagicSquare[i][j];
                         newMagicSquare[i][j] = temp;
-
                     }
                 }
             }
+
             return newMagicSquare;
         }
+
         static int[][] ReflectAlongColumns(int[][] magicSquare)
         {
             var newMagicSquare = new[]
@@ -59,11 +76,12 @@ namespace MagicSquare.CSharp
             {
                 int destColumn = 2;
                 for (int j = 0; j < 3; j++)
-                    newMagicSquare[i][destColumn-j] = magicSquare[i][j];
+                    newMagicSquare[i][destColumn - j] = magicSquare[i][j];
             }
 
             return newMagicSquare;
         }
+
         static int[][] ReflectAlongRows(int[][] magicSquare)
         {
             var newMagicSquare = new[]
@@ -77,11 +95,12 @@ namespace MagicSquare.CSharp
             {
                 int destRow = 2;
                 for (int j = 0; j < 3; j++)
-                    newMagicSquare[destRow-j][i] = magicSquare[i][j];
+                    newMagicSquare[destRow - i][j] = magicSquare[i][j];
             }
 
             return newMagicSquare;
         }
+
         static int[][] Rotate(int[][] magicSquare)
         {
             var newMagicSquare = new[]
@@ -103,7 +122,40 @@ namespace MagicSquare.CSharp
 
             return newMagicSquare;
         }
-        private bool IsValidMagicSquare(int[][] candidate)
+
+        static int DiffMatrices(int[][] a, int[][] b)
+        {
+            int diff = 0;
+            for (int i = 0; i < a.Length; i++)
+            for (int j = 0; j < a.Length; j++)
+                diff += Math.Abs(a[i][j] - b[i][j]);
+
+            return diff;
+        }
+
+        static int FormingMagicSquare(int[][] s)
+        {
+            var baseSquare = new[]
+            {
+                new[] {6, 7, 2},
+                new[] {1, 5, 9},
+                new[] {8, 3, 4}
+            };
+            var magicSquares = new List<int[][]>
+            {
+                baseSquare,
+                Rotate(baseSquare),
+                Rotate(Rotate(baseSquare)),
+                Rotate(Rotate(Rotate(baseSquare))),
+                ReflectAlongRows(baseSquare),
+                ReflectAlongColumns(baseSquare),
+                ReflectAlongMainDiagonal(baseSquare),
+                ReflectAlongOffDiagonal(baseSquare)
+            };
+            return magicSquares.Min(ms => DiffMatrices(ms, s));
+        }
+
+        bool IsValidMagicSquare(int[][] candidate)
         {
             var isValid = true;
             int magicConstant = 15;
@@ -118,6 +170,7 @@ namespace MagicSquare.CSharp
             return isValid;
         }
 
+
         [Fact]
         public void GivenMagicSquare_WhenRotateOnce_ThenReturnsAnotherMagicSquare()
         {
@@ -130,6 +183,7 @@ namespace MagicSquare.CSharp
             var anotherMagicSquare = Rotate(givenMagicSquare);
             Assert.True(IsValidMagicSquare(anotherMagicSquare));
         }
+
         [Fact]
         public void GivenMagicSquare_WhenRotateTwice_ThenReturnsAnotherMagicSquare()
         {
@@ -142,6 +196,7 @@ namespace MagicSquare.CSharp
             var anotherMagicSquare = Rotate(Rotate(givenMagicSquare));
             Assert.True(IsValidMagicSquare(anotherMagicSquare));
         }
+
         [Fact]
         public void GivenMagicSquare_WhenRotateThreeTimes_ThenReturnsAnotherMagicSquare()
         {
@@ -154,11 +209,12 @@ namespace MagicSquare.CSharp
             var anotherMagicSquare = Rotate(Rotate(Rotate(givenMagicSquare)));
             Assert.True(IsValidMagicSquare(anotherMagicSquare));
         }
+
         [Fact]
         public void GivenMagicSquare_WhenReflectAlongColumns_ThenReturnsAnotherMagicSquare()
         {
             var givenMagicSquare = new[]
-            {    
+            {
                 new[] {4, 9, 2},
                 new[] {3, 5, 7},
                 new[] {8, 1, 6}
@@ -166,11 +222,12 @@ namespace MagicSquare.CSharp
             var anotherMagicSquare = ReflectAlongColumns(givenMagicSquare);
             Assert.True(IsValidMagicSquare(anotherMagicSquare));
         }
+
         [Fact]
         public void GivenMagicSquare_WhenReflectAlongRows_ThenReturnsAnotherMagicSquare()
         {
             var givenMagicSquare = new[]
-            {    
+            {
                 new[] {4, 9, 2},
                 new[] {3, 5, 7},
                 new[] {8, 1, 6}
@@ -178,31 +235,79 @@ namespace MagicSquare.CSharp
             var anotherMagicSquare = ReflectAlongRows(givenMagicSquare);
             Assert.True(IsValidMagicSquare(anotherMagicSquare));
         }
-    
+
         [Fact]
-        public void GivenMagicSquare_WhenReflectAlongMainDiagonal_ThenReturnsAnotherMagicSquare()
+        public void GivenMagicSquare_WhenReflectAlongMainDiagonal_ThenReturnsRightMagicSquare()
         {
             var givenMagicSquare = new[]
-            {    
-                new[] {4, 9, 2},
-                new[] {3, 5, 7},
-                new[] {8, 1, 6}
+            {
+                new[] {6, 7, 2},
+                new[] {1, 5, 9},
+                new[] {8, 3, 4}
+            };
+            var expected = new[]
+            {
+                new[] {6, 1, 8},
+                new[] {7, 5, 3},
+                new[] {2, 9, 4}
             };
             var anotherMagicSquare = ReflectAlongMainDiagonal(givenMagicSquare);
-            Assert.True(IsValidMagicSquare(anotherMagicSquare));
+            Assert.Equal(expected, anotherMagicSquare);
         }
-        
+
         [Fact]
         public void GivenMagicSquare_WhenReflectAlongOffDiagonal_ThenReturnsAnotherMagicSquare()
         {
             var givenMagicSquare = new[]
-            {    
+            {
+                new[] {6, 7, 2},
+                new[] {1, 5, 9},
+                new[] {8, 3, 4}
+            };
+            var expected = new[]
+            {
                 new[] {4, 9, 2},
                 new[] {3, 5, 7},
                 new[] {8, 1, 6}
             };
             var anotherMagicSquare = ReflectAlongOffDiagonal(givenMagicSquare);
-            Assert.True(IsValidMagicSquare(anotherMagicSquare));
+            Assert.Equal(expected, anotherMagicSquare);
+        }
+
+        [Fact]
+        public void GivenNonMagicSquare_WhenGapToMakeMagicIs7_ThenReturns7()
+        {
+            var givenMagicSquare = new[]
+            {
+                new[] {5, 3, 4},
+                new[] {1, 5, 8},
+                new[] {6, 4, 2}
+            };
+            Assert.Equal(7, FormingMagicSquare(givenMagicSquare));
+        }
+
+        [Fact]
+        public void GivenNonMagicSquare_WhenGapToMakeMagicIs4_ThenReturns4()
+        {
+            var givenMagicSquare = new[]
+            {
+                new[] {4, 8, 2},
+                new[] {4, 5, 7},
+                new[] {6, 1, 6}
+            };
+            Assert.Equal(4, FormingMagicSquare(givenMagicSquare));
+        }
+
+        [Fact]
+        public void GivenNonMagicSquare_WhenGapToMakeMagicIs14_ThenReturns14()
+        {
+            var givenMagicSquare = new[]
+            {
+                new[] {4, 5, 8},
+                new[] {2, 4, 1},
+                new[] {1, 9, 7}
+            };
+            Assert.Equal(14, FormingMagicSquare(givenMagicSquare));
         }
     }
 }
