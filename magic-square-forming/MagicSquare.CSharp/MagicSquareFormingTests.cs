@@ -5,10 +5,6 @@ namespace MagicSquare.CSharp
 {
     public class MagicSquareFormingTests
     {
-        static bool IsValidMagicSquare(int[][] a)
-        {
-            return true;
-        }
         [Fact]
         public void GivenMagicSquare_WhenRotateOnce_ThenReturnsExpected()
         {
@@ -24,9 +20,9 @@ namespace MagicSquare.CSharp
                 new[] {3, 5, 7},
                 new[] {4, 9, 2}
             };
-            Assert.Equal(expected,Solution.Rotate(givenMagicSquare));
+            Assert.Equal(expected, Solution.Rotate(givenMagicSquare));
         }
-        
+
         [Fact]
         public void GivenTwoMatrices_WhenDiff_ThenReturnsExpected()
         {
@@ -48,7 +44,7 @@ namespace MagicSquare.CSharp
                 new[] {2, 0, 2},
                 new[] {4, 6, 2}
             };
-            Assert.Equal(expected.Sum(x=>x.Sum()),Solution.DiffMatrices(a,b));
+            Assert.Equal(expected.Sum(x => x.Sum()), Solution.DiffMatrices(a, b));
         }
 
         [Fact]
@@ -60,8 +56,14 @@ namespace MagicSquare.CSharp
                 new[] {3, 5, 7},
                 new[] {8, 1, 6}
             };
-            var anotherMagicSquare = Solution.Rotate(Solution.Rotate(givenMagicSquare));
-            Assert.True(IsValidMagicSquare(anotherMagicSquare));
+            var expected = new[]
+            {
+                new[] {6, 1, 8},
+                new[] {7, 5, 3},
+                new[] {2, 9, 4}
+            };
+            var actual = Solution.Rotate(Solution.Rotate(givenMagicSquare));
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -73,8 +75,14 @@ namespace MagicSquare.CSharp
                 new[] {3, 5, 7},
                 new[] {8, 1, 6}
             };
-            var anotherMagicSquare = Solution.Rotate(Solution.Rotate(Solution.Rotate(givenMagicSquare)));
-            Assert.True(IsValidMagicSquare(anotherMagicSquare));
+            var expected = new[]
+            {
+                new[] {2, 7, 6},
+                new[] {9, 5, 1},
+                new[] {4, 3, 8}
+            };
+            var actual = Solution.Rotate(Solution.Rotate(Solution.Rotate(givenMagicSquare)));
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -86,8 +94,13 @@ namespace MagicSquare.CSharp
                 new[] {3, 5, 7},
                 new[] {8, 1, 6}
             };
-            var anotherMagicSquare = Solution.ReflectAlongColumns(givenMagicSquare);
-            Assert.True(IsValidMagicSquare(anotherMagicSquare));
+            var expected = new[]
+            {
+                new[] {2, 9, 4},
+                new[] {7, 5, 3},
+                new[] {6, 1, 8}
+            };
+            Assert.Equal(expected, Solution.ReflectAlongColumns(givenMagicSquare));
         }
 
         [Fact]
@@ -99,8 +112,14 @@ namespace MagicSquare.CSharp
                 new[] {3, 5, 7},
                 new[] {8, 1, 6}
             };
-            var anotherMagicSquare = Solution.ReflectAlongRows(givenMagicSquare);
-            Assert.True(IsValidMagicSquare(anotherMagicSquare));
+            var expected = new[]
+            {
+                new[] {8, 1, 6},
+                new[] {3, 5, 7},
+                new[] {4, 9, 2}
+            };
+
+            Assert.Equal(expected, Solution.ReflectAlongRows(givenMagicSquare));
         }
 
         [Fact]
@@ -118,8 +137,7 @@ namespace MagicSquare.CSharp
                 new[] {7, 5, 3},
                 new[] {2, 9, 4}
             };
-            var anotherMagicSquare = Solution.ReflectAlongMainDiagonal(givenMagicSquare);
-            Assert.Equal(expected, anotherMagicSquare);
+            Assert.Equal(expected, Solution.ReflectAlongMainDiagonal(givenMagicSquare));
         }
 
         [Fact]
@@ -137,8 +155,7 @@ namespace MagicSquare.CSharp
                 new[] {3, 5, 7},
                 new[] {8, 1, 6}
             };
-            var anotherMagicSquare = Solution.ReflectAlongOffDiagonal(givenMagicSquare);
-            Assert.Equal(expected, anotherMagicSquare);
+            Assert.Equal(expected, Solution.ReflectAlongOffDiagonal(givenMagicSquare));
         }
 
         [Fact]
