@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Grading.Csharp", "Grading.Csharp\Grading.Csharp.csproj", "{3574A9D3-EA18-44F6-90A3-D9F78250C5EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3574A9D3-EA18-44F6-90A3-D9F78250C5EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3574A9D3-EA18-44F6-90A3-D9F78250C5EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3574A9D3-EA18-44F6-90A3-D9F78250C5EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3574A9D3-EA18-44F6-90A3-D9F78250C5EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
