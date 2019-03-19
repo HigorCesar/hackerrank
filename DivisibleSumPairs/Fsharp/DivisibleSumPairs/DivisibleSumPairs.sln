@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "DivisibleSumPairs", "DivisibleSumPairs\DivisibleSumPairs.fsproj", "{F1139648-E4E5-4530-BE5C-C7F7EEC577CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F1139648-E4E5-4530-BE5C-C7F7EEC577CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1139648-E4E5-4530-BE5C-C7F7EEC577CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1139648-E4E5-4530-BE5C-C7F7EEC577CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1139648-E4E5-4530-BE5C-C7F7EEC577CA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
